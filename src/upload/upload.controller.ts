@@ -46,7 +46,7 @@ export class UploadController {
         const response = {
             originalname: foto.originalname,
             filename: foto.filename,
-            urlFoto: `http://localhost:3000/upload/foto/${foto.filename}`
+            urlFoto: `https://credencial-core.herokuapp.com/upload/foto/${foto.filename}`
         }
         return response;
     }
@@ -62,7 +62,7 @@ export class UploadController {
         const response = {
             originalname: assinatura.originalname,
             filename: assinatura.filename,
-            urlFoto: `http://localhost:3000/upload/assinatura/${assinatura.filename}`
+            urlFoto: `https://credencial-core.herokuapp.com/upload/assinatura/${assinatura.filename}`
         }
         return response;
     }

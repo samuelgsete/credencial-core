@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Página de impressão</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+        
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                font-family: 'Lato', sans-serif;
+            }
+
+            .credencial {
+                display: flex;
+                flex-flow: row;
+                background-color: #ffff;
+                margin-bottom: 5px;
+            }
+
+            .frente {
+                margin-left: 3px;
+            }
+
+            .frente, .verso {
+                width: 500px;
+                border: 8px double #0d7de6;
+                border-radius: 15px;
+                padding: 8px 12px;
+            }
+
+            /* Estilos da frente do documento*/
+            .cabecalho {
+                text-align: center;
+            }
+
+            .cabecalho img {
+                float: left;
+                margin-top: 15px;
+                margin-right: -70px;
+            }
+
+            .cabecalho h1 {
+                font-size: 17px;
+                text-decoration: underline;
+            }
+
+            .cabecalho p {
+                font-size: 14px;
+            }
+
+            .dados {
+                display: flex;
+                flex-flow: row;
+                margin: 8px;
+            }
+
+            .container1 {
+                width: 500px;
+                display: grid;
+                grid-template-areas:
+                    'nome nome nome nome nome'
+                    'id batismo batismo cargo cargo'
+                    'filiacao filiacao filiacao filiacao filiacao';
+                grid-gap: 4px;
+            }
+
+            .nome {
+                grid-area: nome;
+            }
+
+            .id {
+                grid-area: id;
+            }
+
+            .foto {
+                grid-area: foto;
+            }
+
+            .batismo {
+                grid-area: batismo;
+            }
+
+            .cargo {
+                grid-area: cargo;
+            }
+
+            .filiacao {
+                grid-area: filiacao;
+            }
+
+            .filiacao p {
+                margin-left: 10px;
+                text-align: left;
+            }
+
+            fieldset {
+                padding: 3px;
+                border-radius: 10px;
+                font-weight: bold;
+                border-color: #599edf;
+            }
+
+            fieldset p {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            fieldset legend {
+                font-size: 14px;
+                color:#135899;
+            }
+
+            .foto {
+                border: 2px solid #498dcc;
+                width: 4.5cm;
+                height: 4cm;
+                margin-left: 6px;
+                margin-top: 6px;
+            }
+
+            /* Estilos do verso do documento */
+            .container2 {
+                width: 500px;
+                display: grid;
+                grid-template-areas:
+                    'cpf rg'
+                    'nascimento congregacao'
+                    'membro membro'
+                    'pastor pastor';
+                grid-gap: 4px;
+            }
+
+            .cpf {
+                grid-area: cpf;
+            }
+
+            .rg {
+                grid-area: rg;
+            }
+
+            .nascimento {
+                grid-area: nascimento;
+            }
+
+            .congregacao {
+                grid-area: congregacao;
+            }
+
+            .membro {
+                grid-area: membro;
+                font-size: 14px;
+                text-align: center;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .membro hr {
+                background-color:#498dcc;
+                height: 1px;
+            }
+
+            .pastor {
+                grid-area: pastor;
+                font-size: 14px;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .pastor p, .membro p {
+                font-size: 16px;
+                color: #135899;
+            }
+
+            @media print  {
+                .credencial {
+                    page-break-inside: avoid;
+                }
+            }             
+        </style>
+    </head>
+    <body>
+        <% membros.forEach(function(membro){ %>
+            <div class="credencial">
+                <div class="verso">
+                    <div class="container2">
+                        <fieldset class="cpf">
+                            <legend>CPF</legend>
+                            <p>
+                                <%= mascaraDeCpf(membro.cpf) %>
+                            </p>
+                        </fieldset>
+                        <fieldset class="rg">
+                            <legend>RG</legend>
+                            <p>
+                                <%= membro.rg %>
+                            </p>
+                        </fieldset>
+                        <fieldset class="nascimento">
+                            <legend>Data de nascimento</legend>
+                            <p>
+                                <%= moment(membro.nascidoEm).format('DD/MM/YYYY') %>
+                            </p>
+                        </fieldset>
+                        <fieldset class="congregação">
+                            <legend>Congregante em</legend>
+                            <p>
+                                <%= membro.congregacao %>
+                            </p>
+                        </fieldset>
+                        <div class="membro">
+                            <div style="width: 100%; height: 45px;">
+                                <img src="<%= membro.urlAssinatura %>" alt="Foto do membro" width="100%" height="100%">
+                            </div>
+                            <hr>
+                            <p> <%= membro.nome %></p>
+                        </div>
+                        <div class="pastor">
+                            <div style="width: 100%; height: 100px;">
+                                <img src="https://res.cloudinary.com/dt4bynswk/image/upload/v1616181524/assPastor_quxup0.png" alt="Gerôncio Sousa Sales" width="100%" height="100%">
+                            </div>
+                            <p style="margin-top: -30px;">Gerôncio de Sousa Sales</p>
+                            <span>PASTOR PRESIDENTE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="frente">
+                    <div class="cabecalho">
+                        <img src="https://res.cloudinary.com/dt4bynswk/image/upload/v1616181502/adtc_uqbm2c.png" alt="Assembléia de Deus" width="70px" height="50px">
+                        <div>
+                            <h1>IGREJA EVANGÉLICA ASSEMBLÉIA DE DEUS</h1>
+                            <p style="color:#056fd3; font-weight: bold;">Rua do trilho, 61.895-000, Água Verde, Guaiúba-CE</p>
+                            <p style="font-weight: bold; font-size: 15px;">CNPJ: 07.836.612/0001-68</p>
+                            <p style="color:#135899; font-size: 26px; font-family: 'Dancing Script', cursive;">Templo Central</p>
+                        </div>
+                    </div>
+                    <div class="dados">
+                        <div class="container1">
+                            <fieldset class="nome">
+                                <legend>Nome completo</legend>
+                                <p>
+                                    <%= membro.nome %>
+                                </p>
+                            </fieldset>
+                            <fieldset>
+                                <legend class="id">ID</legend>
+                                <p>
+                                    <%= membro.id %>
+                                </p>
+                            </fieldset>
+                            <fieldset class="batismo">
+                                <legend>Batizado em</legend>
+                                <p>
+                                    <%= moment(membro.batizadoEm).format('DD/MM/YYYY') %>
+                                </p>
+                            </fieldset>
+                            <fieldset class="cargo">
+                                <legend>Cargo ocupado</legend>
+                                <p>Músico</p>
+                            </fieldset>
+                            <fieldset class="filiacao">
+                                <legend>Filiação</legend>
+                                <p>
+                                    <%= membro.nomePai %>
+                                </p>
+                                <p>
+                                    <%= membro.nomeMae %>
+                                </p>
+                            </fieldset>
+                        </div>
+                        <div class="foto">
+                            <img src="<%= membro.urlFoto %>" alt="Foto do membro" width="100%" height="100%">
+                        </div>
+                    </div>
+                    <p style="margin-top: 8px; font-weight: bold; text-align: right;">
+                        Emitido em <%=  dataPorExtenso(new Date()) %>
+                    </p>
+                </div>
+            </div>
+        <% }); %>
+    </body>
+</html>
